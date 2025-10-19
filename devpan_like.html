@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DevPan — Minimal Landing</title>
+  <meta name="description" content="Landing page phong cách hiện đại: gradient, glassmorphism, dark mode, FAQ, copy code. Một file HTML thôi.">
+  <style>
+    /* ==== Base / Theme ==================================================== */
+    :root{
+      --bg: #0b0f17;
+      --bg2: #0f1522;
+      --fg: #e6eefc;
+      --muted: #aab3c5;
+      --primary: #8ab4ff;
+      --accent: #7cf5d2;
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --grad: radial-gradient(1200px 500px at 10% -10%, #2c3b6e55, transparent 60%),
+              radial-gradient(1200px 600px at 110% 10%, #1a6b6a55, transparent 60%),
+              radial-gradient(900px 400px at 50% 120%, #5f3aa755, transparent 60%),
+              linear-gradient(180deg, var(--bg), var(--bg2));
+    }
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body{
+      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--grad);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+    a{ color: var(--primary); text-decoration: none }
+    img{ max-width: 100%; display: block }
+    .container{ width:min(1120px, 92vw); margin-inline:auto }
+    .btn{
+      display:inline-flex; align-items:center; gap:.6rem; cursor:pointer;
+      padding:.9rem 1.2rem; border-radius:999px; font-weight:700; border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      color:var(--fg); transition:.15s transform,.2s box-shadow;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    }
+    .btn:hover{ transform: translateY(-1px) }
+    .btn.primary{ background: linear-gradient(180deg, #6aa2ff, #3a78ff); border-color: #2b63d1 }
+    .btn.ghost{ background: transparent }
+    .badge{
+      display:inline-flex; align-items:center; gap:.5rem; padding:.3rem .6rem; border-radius:999px;
+      font-size:.8rem; letter-spacing:.2px; background:rgba(124,245,210,.12); color:#b6ffef; border:1px solid rgba(124,245,210,.3);
+    }
+
+    /* ==== Navbar ========================================================== */
+    .nav{ position:sticky; top:0; z-index:50; backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(10,14,22,.65), rgba(10,14,22,.35));
+      border-bottom:1px solid var(--border); }
+    .nav .row{ display:flex; align-items:center; justify-content:space-between; padding:.9rem 0 }
+    .logo{ display:flex; align-items:center; gap:.7rem; font-weight:900; letter-spacing:.3px }
+    .logo .mark{
+      width:32px; height:32px; border-radius:10px;
+      background: conic-gradient(from 210deg, #7cf5d2, #8ab4ff, #caa7ff, #7cf5d2);
+      box-shadow: 0 6px 18px rgba(138,180,255,.35);
+    }
+    .navlinks{ display:flex; gap:1rem; align-items:center }
+    .navlinks a{ padding:.5rem .8rem; border-radius:10px }
+    .navlinks a:hover{ background:rgba(255,255,255,.05) }
+    .mobile-toggle{ display:none }
+    @media (max-width: 760px){
+      .navlinks{ display:none }
+      .mobile-toggle{ display:inline-flex }
+    }
+
+    /* ==== Hero ============================================================ */
+    .hero{ padding: 72px 0 36px }
+    .hero .grid{ display:grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: center }
+    @media (max-width: 960px){ .hero .grid{ grid-template-columns: 1fr; } }
+    h1{ font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1.1; margin: 0 0 .8rem }
+    .lead{ color: var(--muted); font-size: clamp(1rem, 2.4vw, 1.15rem); margin: 0 0 1.2rem }
+    .cta{ display:flex; gap:.8rem; flex-wrap:wrap }
+    .shot{
+      border-radius: var(--radius); padding: 14px; background: var(--card); border:1px solid var(--border); box-shadow: var(--shadow);
+    }
+
+    /* ==== Feature cards =================================================== */
+    .section{ padding: 36px 0 }
+    .cards{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px }
+    @media (max-width: 960px){ .cards{ grid-template-columns: 1fr 1fr } }
+    @media (max-width: 640px){ .cards{ grid-template-columns: 1fr } }
+    .card{
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px;
+      box-shadow: var(--shadow); transition:.2s transform;
+    }
+    .card:hover{ transform: translateY(-3px) }
+    .card h3{ margin:0 0 .2rem }
+    .card p{ margin:.2rem 0 0; color:var(--muted) }
+
+    /* ==== Code block ====================================================== */
+    .codewrap{
+      background: #0a0f19; border:1px solid var(--border); border-radius: 14px; overflow: hidden; position:relative;
+      box-shadow: var(--shadow);
+    }
+    .codebar{ display:flex; align-items:center; justify-content:space-between; padding:.6rem .8rem; background: rgba(255,255,255,.04) }
+    .dots{ display:flex; gap:.35rem }
+    .dot{ width:10px; height:10px; border-radius:50%; background:#ff6b6b }
+    .dot:nth-child(2){ background:#ffd93d } .dot:nth-child(3){ background:#51cf66 }
+    pre{ margin:0; padding: 1rem; overflow:auto; color:#e6eefc }
+    code{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.95rem }
+    .copybtn{ position:absolute; right:.7rem; top:.55rem }
+
+    /* ==== Pricing ========================================================= */
+    .pricing{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px }
+    @media (max-width: 960px){ .pricing{ grid-template-columns: 1fr 1fr } }
+    @media (max-width: 640px){ .pricing{ grid-template-columns: 1fr } }
+    .price{ padding: 20px }
+    .price h4{ margin:.2rem 0 }
+    .price .num{ font-size: 2rem; font-weight: 900 }
+    .muted{ color:var(--muted) }
+
+    /* ==== FAQ ============================================================= */
+    .faq{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px }
+    @media (max-width: 900px){ .faq{ grid-template-columns: 1fr } }
+    .qa{ border:1px solid var(--border); border-radius: 14px; background: var(--card); overflow:hidden }
+    .qa summary{
+      cursor:pointer; list-style:none; padding: 1rem 1.1rem; font-weight:700;
+    }
+    .qa summary::-webkit-details-marker{ display:none }
+    .qa div{ padding: 0 1.1rem 1rem; color: var(--muted) }
+    .qa[open] summary{ background: rgba(255,255,255,.05) }
+
+    /* ==== Footer / Controls ============================================== */
+    footer{ padding: 36px 0; color: var(--muted); display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between }
+    .controls{ display:flex; gap:.6rem; align-items:center }
+    .switch{ display:inline-flex; align-items:center; gap:.5rem; padding:.3rem .5rem; border:1px solid var(--border); border-radius: 999px }
+    .switch input{ accent-color: var(--primary) }
+
+    /* Light mode */
+    .light{
+      --bg: #f7f9ff;
+      --bg2: #eef3ff;
+      --fg: #121723;
+      --muted: #485169;
+      --primary: #336dff;
+      --accent: #1bbf9a;
+      --card: rgba(255,255,255,.8);
+      --border: rgba(0,0,0,.08);
+      --shadow: 0 12px 30px rgba(0,0,0,.12);
+      --grad: radial-gradient(1200px 500px at 10% -10%, #9db8ff33, transparent 60%),
+              radial-gradient(1200px 600px at 110% 10%, #5cf0d433, transparent 60%),
+              radial-gradient(900px 400px at 50% 120%, #d1b6ff33, transparent 60%),
+              linear-gradient(180deg, var(--bg), var(--bg2));
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== NAV ===== -->
+  <header class="nav">
+    <div class="container row">
+      <div class="logo">
+        <div class="mark"></div><span>DevPan</span>
+      </div>
+      <nav class="navlinks">
+        <a href="#features">Tính năng</a>
+        <a href="#code">Code</a>
+        <a href="#pricing">Giá</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <button class="btn ghost mobile-toggle" id="menuBtn">Menu</button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container grid">
+      <div>
+        <span class="badge">🚀 Một file HTML là đủ</span>
+        <h1>Bắt đầu dự án của bạn<br>với <span style="background:linear-gradient(90deg,#8ab4ff,#7cf5d2);-webkit-background-clip:text;background-clip:text;color:transparent">DevPan</span></h1>
+        <p class="lead">Landing page gọn nhẹ, hiệu ứng mượt, dark mode sẵn — tự do chỉnh sửa, deploy miễn phí (Netlify, Vercel, GitHub Pages).</p>
+        <div class="cta">
+          <a class="btn primary" href="#code">Xem mã nguồn</a>
+          <a class="btn" href="#features">Khám phá tính năng</a>
+        </div>
+      </div>
+      <div class="shot">
+        <img alt="Preview" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="cards">
+        <article class="card">
+          <h3>Glassmorphism</h3>
+          <p>Thẻ trong suốt với viền tinh tế & đổ bóng mềm, tạo chiều sâu hiện đại.</p>
+        </article>
+        <article class="card">
+          <h3>Dark/Light mode</h3>
+          <p>Chuyển chủ đề ngay lập tức, lưu trạng thái vào LocalStorage.</p>
+        </article>
+        <article class="card">
+          <h3>Responsive</h3>
+          <p>Grid thích ứng từ di động đến màn hình lớn, không cần framework.</p>
+        </article>
+        <article class="card">
+          <h3>Copy code</h3>
+          <p>Nút copy nhanh giúp dán mã vào dự án trong 1 giây.</p>
+        </article>
+        <article class="card">
+          <h3>FAQ Accordion</h3>
+          <p>Chi tiết &lt;details&gt; native — nhẹ mà mượt.</p>
+        </article>
+        <article class="card">
+          <h3>Triển khai dễ</h3>
+          <p>Chỉ 1 file: thả lên Netlify Drop/Neocities/Vercel là xong.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CODE SAMPLE ===== -->
+  <section class="section" id="code">
+    <div class="container">
+      <h2 style="margin:0 0 .6rem">Đoạn mã mẫu</h2>
+      <p class="muted" style="margin:0 0 1rem">Sao chép và chỉnh sửa theo ý bạn.</p>
+      <div class="codewrap">
+        <div class="codebar">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <button class="btn copybtn" id="copyBtn">Copy</button>
+        </div>
+<pre><code id="snippet">&lt;section class=&quot;hero&quot;&gt;
+  &lt;div class=&quot;container grid&quot;&gt;
+    &lt;div&gt;
+      &lt;h1&gt;Xin chào DevPan&lt;/h1&gt;
+      &lt;p class=&quot;lead&quot;&gt;Một file HTML là đủ&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRICING ===== -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <h2 style="margin:0 0 .6rem">Giá (mẫu)</h2>
+      <p class="muted" style="margin:0 0 1rem">Bạn có thể ẩn/đổi mục này.</p>
+      <div class="pricing">
+        <article class="card price">
+          <h4>Starter</h4>
+          <div class="num">Miễn phí</div>
+          <p class="muted">Landing 1 trang, tùy chỉnh cơ bản.</p>
+          <a class="btn" href="#code">Dùng ngay</a>
+        </article>
+        <article class="card price">
+          <h4>Pro</h4>
+          <div class="num">$9</div>
+          <p class="muted">Thêm form liên hệ, analytics, tối ưu SEO.</p>
+          <a class="btn primary" href="#code">Nâng cấp</a>
+        </article>
+        <article class="card price">
+          <h4>Team</h4>
+          <div class="num">$29</div>
+          <p class="muted">Tối ưu hiệu năng, nhiều trang, hỗ trợ ưu tiên.</p>
+          <a class="btn" href="#code">Bắt đầu</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <h2 style="margin:0 0 .6rem">FAQ</h2>
+      <div class="faq">
+        <details class="qa" open>
+          <summary>Làm sao đổi logo, màu sắc?</summary>
+          <div>Đổi chữ “DevPan” trong header; thay màu ở biến <code>:root</code> (ví dụ <code>--primary</code>, <code>--accent</code>).</div>
+        </details>
+        <details class="qa">
+          <summary>Triển khai miễn phí ở đâu?</summary>
+          <div>Netlify Drop, Neocities, GitHub Pages, hoặc Vercel đều được. Chỉ cần tải file này lên.</div>
+        </details>
+        <details class="qa">
+          <summary>Thêm trang mới như thế nào?</summary>
+          <div>Tạo thêm file HTML khác (ví dụ <code>about.html</code>) và liên kết bằng thẻ &lt;a&gt; trong navbar.</div>
+        </details>
+        <details class="qa">
+          <summary>Hỗ trợ tiếng Việt/Anh không?</summary>
+          <div>Toàn bộ là HTML tĩnh nên bạn viết nội dung ngôn ngữ nào cũng được.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container">
+    <div>© 2025 DevPan Demo — 1 file HTML</div>
+    <div class="controls">
+      <label class="switch">
+        <input type="checkbox" id="themeToggle"> <span>Dark mode</span>
+      </label>
+      <a class="btn" href="#top" id="backTop">Lên đầu trang ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu (simplified: scroll to sections)
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      alert('Cuộn đến các mục: Tính năng / Code / Giá / FAQ');
+    });
+
+    // Copy code
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const t = document.getElementById('snippet').innerText;
+      try{
+        await navigator.clipboard.writeText(t);
+        const btn = document.getElementById('copyBtn');
+        const old = btn.textContent; btn.textContent='Đã copy ✓'; setTimeout(()=> btn.textContent=old, 1200);
+      }catch(e){ alert('Copy thất bại, hãy chọn tay và Ctrl+C'); }
+    });
+
+    // Back to top
+    document.getElementById('backTop').addEventListener('click', (e)=>{
+      e.preventDefault(); scrollTo({top:0, behavior:'smooth'});
+    });
+
+    // Theme toggle with LocalStorage
+    const root = document.documentElement;
+    const box = document.getElementById('themeToggle');
+    const saved = localStorage.getItem('theme');
+    if(saved === 'light'){ root.classList.add('light'); box.checked = true; }
+    box.addEventListener('change', () => {
+      root.classList.toggle('light', box.checked);
+      localStorage.setItem('theme', box.checked ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>
